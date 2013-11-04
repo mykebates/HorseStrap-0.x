@@ -1,0 +1,31 @@
+// Vertical Rhythm
+$base-font-size: 18px;
+$basepx: 18;
+$base-line-height: 24px;
+@include establish-baseline;
+
+// global layout styles  
+@mixin container{
+	@include outer-container;
+	@include media($tablet){ width: auto; }
+}
+
+.container{
+	@include container; padding: 0 15px; position: relative;
+}
+
+html, body{
+	font-smooth:always; -webkit-font-smoothing: antialiased; overflow-x: hidden;
+}
+
+// -------------------------------------------------------------------------------------
+//
+// Elements
+//
+// -------------------------------------------------------------------------------------
+
+@import "partials/elements/buttons";
+@import "partials/elements/forms";
+@import "partials/elements/navigation";
+@import "partials/elements/header";
+@import "partials/elements/footer";
