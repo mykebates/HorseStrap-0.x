@@ -1,8 +1,10 @@
 {
-  "devDependencies": {
-    "gulp": "~3.6.0",
+  "dependencies": {
     "gulp-livereload": "~1.2.0",
     "tiny-lr": "0.0.5",
     "gulp-compass": "~1.1.8"
+  },
+  "devDependencies": {
+    "gulp": "~3.6.0"
   }
 }
