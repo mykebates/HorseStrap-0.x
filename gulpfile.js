@@ -1,45 +1,22 @@
-var gulp = require('gulp'),
-    lr = require('tiny-lr'),
-    compass = require('gulp-compass'),
-    livereload = require('gulp-livereload'),
-    server = lr();
+var gulp = require('gulp');
+var compass = require('gulp-compass');
+var livereload = require('gulp-livereload');
 
-
-gulp.task('watch', function () {
-  server.listen(35729, function (err) {
-    if (err) return console.log(err);
-
-    gulp.watch('**/*.php', function (evt) {
-        server.changed({
-            body: {
-              files: [evt.path]
-            }
-        });
-    });
-
-    gulp.watch('**/*.html', function (evt) {
-        server.changed({
-            body: {
-              files: [evt.path]
-            }
-        });
-    });
-
-    gulp.watch('**/*.scss', function (evt) {
-        gulp.run('compass');
-    });
-  });
-});
-
-
-gulp.task('compass', function() {
+gulp.task('css', function() {
     gulp.src('./sass/*.scss')
     .pipe(compass({
         config_file: './config.rb'
     }))
+    .on('error', function(){
+        console.log('turn down for what!');
+    })
     .pipe(gulp.dest('./css'))
-    .pipe(livereload(server));
+    .pipe(livereload());
 });
 
 
-gulp.task('default', ['watch']);
+
+// Deault
+gulp.task('default', function(){
+    gulp.watch('sass/**/*.scss', ['css']);
+});
