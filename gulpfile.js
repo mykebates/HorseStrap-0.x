@@ -25,7 +25,8 @@ gulp.task('sass', function () {
             }))
         .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest(paths.cssDir))
-        .pipe(reload({stream:true}));
+        //.pipe(reload({stream:true})) // use Livereload by default
+        .pipe(livereload());
 });
 
 // BrowserSync - still on the fence about this(vs Livereload), but it IS pretty awesome
@@ -38,6 +39,7 @@ gulp.task('browser-sync', function() {
 });
 
 // Default
-gulp.task('default', ['sass', 'browser-sync'], function(){
+gulp.task('default', ['sass'], function(){ // pass in 'browser-sync' to start right away
+    livereload.listen();
     gulp.watch(paths.sassFiles, ['sass']);
 });
