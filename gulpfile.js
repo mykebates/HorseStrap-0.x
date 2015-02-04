@@ -1,22 +1,43 @@
-var gulp = require('gulp');
-var compass = require('gulp-compass');
-var livereload = require('gulp-livereload');
+var gulp        = require('gulp'),
+    sass        = require('gulp-sass'),
+    sourcemaps  = require('gulp-sourcemaps'),
+    livereload  = require('gulp-livereload'),
+    browserSync = require('browser-sync'),
+    reload      = browserSync.reload,
+    plumber     = require('gulp-plumber'),
+    browserify  = require('browserify'),
+    source      = require('vinyl-source-stream');
 
-gulp.task('css', function() {
-    gulp.src('./sass/*.scss')
-    .pipe(compass({
-        config_file: './config.rb'
-    }))
-    .on('error', function(){
-        console.log('turn down for what!');
-    })
-    .pipe(gulp.dest('./css'))
-    .pipe(livereload());
+var paths = {
+    sassMain: './sass/main.scss',
+    sassFiles: './sass/**/*.scss',
+    cssDir: './css',
+    proxy: 'horsestrap.dev'
+};
+
+// SASS
+gulp.task('sass', function () {
+    gulp.src(paths.sassMain)
+        .pipe(sourcemaps.init())
+            .pipe(sass({
+                errLogToConsole: true,
+                outputStyle: 'compressed'
+            }))
+        .pipe(sourcemaps.write('./'))
+        .pipe(gulp.dest(paths.cssDir))
+        .pipe(reload({stream:true}));
 });
 
+// BrowserSync - still on the fence about this(vs Livereload), but it IS pretty awesome
+gulp.task('browser-sync', function() {
+    browserSync({
+        proxy: paths.proxy,
+        xip: true,
+        notify: false
+    });
+});
 
-
-// Deault
-gulp.task('default', function(){
-    gulp.watch('sass/**/*.scss', ['css']);
+// Default
+gulp.task('default', ['sass', 'browser-sync'], function(){
+    gulp.watch(paths.sassFiles, ['sass']);
 });
