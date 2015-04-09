@@ -20,8 +20,8 @@ gulp.task('sass', function () {
     gulp.src(paths.sassMain)
         .pipe(sourcemaps.init())
             .pipe(sass({
-                errLogToConsole: true,
-                outputStyle: 'compressed'
+                errLogToConsole: true
+                //outputStyle: 'compressed'
             }))
         .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest(paths.cssDir))
