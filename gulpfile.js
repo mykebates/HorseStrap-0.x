@@ -1,45 +1,15 @@
-var gulp        = require('gulp'),
-    sass        = require('gulp-sass'),
-    sourcemaps  = require('gulp-sourcemaps'),
-    livereload  = require('gulp-livereload'),
-    browserSync = require('browser-sync'),
-    reload      = browserSync.reload,
-    plumber     = require('gulp-plumber'),
-    browserify  = require('browserify'),
-    source      = require('vinyl-source-stream');
+var gulp = require('gulp');
+var elixir = require('laravel-elixir');
 
-var paths = {
-    sassMain: './sass/main.scss',
-    sassFiles: './sass/**/*.scss',
-    cssDir: './css',
-    proxy: 'horsestrap.dev'
-};
+elixir.config.assetsPath = 'source/_assets';
+elixir.config.publicPath = 'source';
 
-// SASS
-gulp.task('sass', function () {
-    gulp.src(paths.sassMain)
-        .pipe(sourcemaps.init())
-            .pipe(sass({
-                errLogToConsole: true
-                //outputStyle: 'compressed'
-            }))
-        .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest(paths.cssDir))
-        //.pipe(reload({stream:true})) // use Livereload by default
-        .pipe(livereload());
-});
-
-// BrowserSync - still on the fence about this(vs Livereload), but it IS pretty awesome
-gulp.task('browser-sync', function() {
-    browserSync({
-        proxy: paths.proxy,
-        xip: true,
-        notify: false
-    });
-});
-
-// Default
-gulp.task('default', ['sass'], function(){ // pass in 'browser-sync' to start right away
-    livereload.listen();
-    gulp.watch(paths.sassFiles, ['sass']);
+elixir(function(mix) {
+    mix.sass('main.scss')
+        .exec('jigsaw build', ['./source/**/*', '!./source/_assets/**/*'])
+        .browserSync({
+            server: { baseDir: 'build_local' },
+            proxy: null,
+            files: [ 'build_local/**/*' ]
+        });
 });
