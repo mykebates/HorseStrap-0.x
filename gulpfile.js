@@ -6,7 +6,7 @@ elixir.config.publicPath = 'source';
 
 elixir(function(mix) {
     mix.sass('main.scss')
-        .exec('jigsaw build', ['./source/**/*', '!./source/_assets/**/*'])
+        .exec('./vendor/bin/jigsaw build', ['./source/**/*', '!./source/_assets/**/*'])
         .browserSync({
             server: { baseDir: 'build_local' },
             proxy: null,

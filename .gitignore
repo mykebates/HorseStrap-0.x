@@ -1,6 +1,4 @@
 /build_local/
-/vendor/
 .idea
-node_modules
 *.map
 css/main.css
