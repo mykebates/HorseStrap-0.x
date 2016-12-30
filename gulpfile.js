@@ -7,7 +7,7 @@ elixir.config.publicPath = 'source';
 
 elixir(function(mix) {
     var isWindows = /^win/.test(require('os').platform());
-    var jigsaw =_if(!isWindows, 'vendor/bin/jigsaw build', 'vendor\\bin\\jigsaw build');
+    var jigsaw =_if(!isWindows, 'jigsaw build', 'jigsaw build');
     mix.sass('main.scss')
         .exec(jigsaw, ['./source/**/*', '!./source/_assets/**/*'])
         .browserSync({
